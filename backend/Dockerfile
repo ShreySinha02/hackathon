@@ -12,6 +12,6 @@ COPY . .
 # Remove or adjust this line if no build step is needed
 # RUN npm run build 
 
-EXPOSE 3000
+EXPOSE 8000
 
 CMD ["npm", "start"]
