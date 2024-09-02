@@ -9,6 +9,8 @@ services:
       - "5179:5173"
     networks:
       - app-network
+    environment:
+      - VITE_API_URL_PROD=http://3.111.175.69:8011
 
   backend:
     build:
@@ -18,6 +20,8 @@ services:
       - "8011:8000"
     networks:
       - app-network
+    environment:
+      - MONGO_URI=mongodb+srv://shrey:shrey@cluster0.bt3np.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 networks:
   app-network:  

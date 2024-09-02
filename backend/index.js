@@ -40,6 +40,7 @@ connectToDb(url)
   });
 
 // Use routes and upload middleware
+app.get("/test",(req,res)=>res.json({"hello":"shrey"}))
 app.use("/challenge", upload.single("image"), challengeRoutes);
 
 app.listen(PORT, () => {

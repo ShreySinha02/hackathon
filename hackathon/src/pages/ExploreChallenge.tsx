@@ -14,11 +14,12 @@ interface ChallengeType {
 function ExploreChallenge() {
   const [searchTerm, setSearchTerm] = useState('');
   const [challenges, setChallenges] = useState<ChallengeType[]>([]); // Use the defined type
-
+  const url=import.meta.env.VITE_API_URL_STAGING
+  console.log("uel",import.meta.env.VITE_API_URL_STAGING);
   // Function to fetch challenges from the server
   const fetchChallenges = async () => {
     try {
-      const response = await fetch('http://localhost:8000/challenge'); // Adjust URL if necessary
+      const response = await fetch(`${url}/challenge`); // Adjust URL if necessary
       const data: ChallengeType[] = await response.json(); // Expect data to be an array of ChallengeType
       console.log('Fetched Challenges:', data); // Log fetched challenges
       setChallenges(data); // Store challenges in state

@@ -15,7 +15,8 @@ interface FormValues {
 function CreateChallenge() {
   // State to manage the loading status
   const [isLoading, setIsLoading] = useState(false);
-
+  const url=import.meta.env.VITE_API_URL_STAGING
+  // console.log(import.meta.env.VITE_API_URL_STAGING);
   // Validation schema using Yup
   const validationSchema = Yup.object({
     name: Yup.string().required('Challenge name is required'),
@@ -53,7 +54,7 @@ function CreateChallenge() {
     formData.append('levelType', values.levelType);
   
     try {
-      const response = await fetch('http://localhost:8000/challenge', {
+      const response = await fetch(`${url}/challenge`, {
         method: 'POST',
         body: formData,
       });
