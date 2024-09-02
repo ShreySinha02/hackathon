@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./hackathon  # Path to your Vite application directory
+      dockerfile: Dockerfile  # Ensure the Dockerfile is named correctly
+    ports:
+      - "5179:5173"
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend  # Path to your Node.js application directory
+      dockerfile: Dockerfile  # Ensure the Dockerfile is named correctly
+    ports:
+      - "8011:8000"
+    networks:
+      - app-network
+
+networks:
+  app-network:  
+    driver: bridge

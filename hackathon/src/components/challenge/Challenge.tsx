@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import CardActionArea from '@mui/material/CardActionArea';
-import Button from '@mui/material/Button';
-import { Box } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, CardActionArea, Button, Box } from '@mui/material';
 
-function Challenge({ challenge }) {
-  const [timeRemaining, setTimeRemaining] = useState('');
-  const [status, setStatus] = useState('');
+// Define the type for challenge props
+interface ChallengeProps {
+  challenge: {
+    startDate: string;
+    endDate: string;
+    name: string;
+    image: string;
+  };
+}
+
+const Challenge: React.FC<ChallengeProps> = ({ challenge }) => {
+  const [timeRemaining, setTimeRemaining] = useState<string>('');
+  const [status, setStatus] = useState<string>('');
 
   // Function to determine the status and countdown
   const calculateStatusAndCountdown = () => {
@@ -30,9 +34,9 @@ function Challenge({ challenge }) {
   };
 
   // Function to calculate the countdown timer
-  const getCountdown = (targetDate) => {
+  const getCountdown = (targetDate: Date) => {
     const now = new Date();
-    const timeDifference = targetDate - now;
+    const timeDifference = targetDate.getTime() - now.getTime();
 
     if (timeDifference <= 0) return '00d : 00h : 00m : 00s';
 
@@ -53,53 +57,13 @@ function Challenge({ challenge }) {
   }, [challenge.startDate, challenge.endDate]);
 
   return (
-    <Card
-      sx={{
-        maxWidth: 345,
-        height: 380,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        boxShadow: 3,
-      }}
-    >
-      <CardActionArea
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        {/* Display the challenge image */}
-        <CardMedia
-          component="img"
-          height="140"
-          image={`${challenge.image}`} // Ensure the correct path to the image
-          alt={challenge.name || 'Challenge Image'}
-          sx={{ width: '100%', objectFit: 'cover' }}
-        />
-        {/* Display the challenge content */}
-        <CardContent
-          className="space-y-2"
-          sx={{
-            textAlign: 'center',
-            flexGrow: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          {/* Display the challenge name */}
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}
-          >
+    <Card sx={{ maxWidth: 345, height: 380, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: 3 }}>
+      <CardActionArea sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <CardMedia component="img" height="140" image={challenge.image} alt={challenge.name || 'Challenge Image'} sx={{ width: '100%', objectFit: 'cover' }} />
+        <CardContent className="space-y-2" sx={{ textAlign: 'center', flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography gutterBottom variant="h5" component="div" sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
             {challenge.name}
           </Typography>
-
-          {/* Display the status and countdown */}
           <Typography
             variant="body1"
             sx={{
@@ -111,30 +75,16 @@ function Challenge({ challenge }) {
               marginBottom: 2,
             }}
           >
-            <strong>{status}</strong> - {timeRemaining}
+            {status} - {timeRemaining}
           </Typography>
-
-          {/* Spacer */}
           <Box sx={{ flexGrow: 1 }} />
-
-          {/* Display the participate button */}
-          <Button
-            variant="contained"
-            color="primary"
-            size="medium"
-            sx={{
-              textTransform: 'none',
-              width: '80%',
-              position: 'relative',
-              marginTop: 'auto',
-            }}
-          >
+          <Button variant="contained" color="primary" size="medium" sx={{ textTransform: 'none', width: '80%', position: 'relative', marginTop: 'auto' }}>
             Participate Now
           </Button>
         </CardContent>
       </CardActionArea>
     </Card>
   );
-}
+};
 
 export default Challenge;

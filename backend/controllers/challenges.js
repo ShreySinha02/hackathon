@@ -10,6 +10,7 @@ async function createChallenge(req, res) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
+    console.log("path",image.path)
     const newChallenge = new Challenge({
       name,
       startDate,
@@ -39,6 +40,7 @@ async function getChallenge(req, res) {
     if (!challenges.length) {
       return res.status(404).json({ message: 'No challenges found.' });
     }
+    console.log("get",challenges[0].image)
 
     const updatedChallenges = challenges.map(challenge => ({
       ...challenge._doc,
