@@ -2,6 +2,12 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import Challenge from '../components/challenge/Challenge';
 import Filter from '../components/filter/Filter';
 
+// Define a type for the filters state
+interface FiltersType {
+  status: string[];
+  level: string[];
+}
+
 // Define the updated type for a challenge object with status and levelType fields
 interface ChallengeType {
   _id: string;
@@ -17,7 +23,7 @@ function ExploreChallenge() {
   const [searchTerm, setSearchTerm] = useState('');
   const [challenges, setChallenges] = useState<ChallengeType[]>([]);
   const [filteredChallenges, setFilteredChallenges] = useState<ChallengeType[]>([]);
-  const [filters, setFilters] = useState({ status: [], level: [] });
+  const [filters, setFilters] = useState<FiltersType>({ status: [], level: [] });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const url = import.meta.env.VITE_API_URL_STAGING;
 
@@ -37,13 +43,13 @@ function ExploreChallenge() {
     try {
       const response = await fetch(`${url}/challenge`);
       const data: ChallengeType[] = await response.json();
-      
+
       // Update challenges with status field
       const updatedChallenges = data.map((challenge) => ({
         ...challenge,
         status: determineStatus(challenge.startDate, challenge.endDate),
       }));
-      
+
       setChallenges(updatedChallenges);
       setFilteredChallenges(updatedChallenges);
     } catch (error) {
@@ -126,7 +132,7 @@ function ExploreChallenge() {
         {/* Filter Dropdown */}
         {isFilterOpen && (
           <div className="relative">
-            <div className="absolute top-0 left-[50%] mt-2 bg-white p-4 rounded-lg shadow-lg z-10 w-full max-w-sm">
+            <div className="absolute top-0 left-0 mt-2 bg-white p-4 rounded-lg shadow-lg z-10 w-full max-w-sm">
               <Filter setFilter={setFilters} />
             </div>
           </div>
