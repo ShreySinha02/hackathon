@@ -27,7 +27,7 @@ function Home() {
         </div>
         {/* Footer or Additional Section */}
         <div className="w-full mt-8 p-4 bg-green-300 text-center ">
-          Hello
+          some text
         </div>
       </div>
     );

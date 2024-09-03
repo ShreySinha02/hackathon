@@ -11,7 +11,7 @@ function Navbar() {
         </div>
         <div>
             <ul>
-                <li><Link to="/challenge">Explore Challege</Link></li>
+                <li><Link to="/challenge">Explore Challenge</Link></li>
             </ul>
         </div>
     </div>
