@@ -10,7 +10,7 @@ services:
     networks:
       - app-network
     environment:
-      - VITE_API_URL_PROD=http://3.111.175.69:8011
+      - VITE_API_URL_STAGING=http://3.111.175.69:8011
 
   backend:
     build:

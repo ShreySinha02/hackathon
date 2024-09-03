@@ -27,6 +27,7 @@ function ExploreChallenge() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const url = import.meta.env.VITE_API_URL_STAGING;
 
+  console.log(url)
   // Function to determine the status of the challenge based on the start and end dates
   const determineStatus = (startDate: string, endDate: string): string => {
     const now = new Date();
