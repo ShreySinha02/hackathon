@@ -6,18 +6,20 @@ services:
       context: ./hackathon  # Path to your Vite application directory
       dockerfile: Dockerfile  # Ensure the Dockerfile is named correctly
     ports:
-      - "5179:5173"
+      - "3000:3000"  # Maps port 3000 in the container to 3000 on the host
     networks:
       - app-network
-    environment:
-      - VITE_API_URL_STAGING=http://3.111.175.69:8011
+    # environment:
+    #   - VITE_API_URL_STAGING=http://backend:8000  # Use backend service name in the network
+    depends_on:
+      - backend  # Ensure backend is ready before starting frontend
 
   backend:
     build:
-      context: ./backend  # Path to your Node.js application directory
+      context: ./backend  # Path to your Node.js backend application directory
       dockerfile: Dockerfile  # Ensure the Dockerfile is named correctly
     ports:
-      - "8011:8000"
+      - "8011:8000"  # Expose port 8000 in the container as 8011 on the host
     networks:
       - app-network
     environment:

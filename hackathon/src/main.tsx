@@ -9,6 +9,7 @@ import {
 import Home from './pages/Home.tsx';
 import ExploreChallenge from './pages/ExploreChallenge.tsx';
 import CreateChallenge from './pages/CreateChallenge.tsx';
+import Participation from './pages/Participation.tsx';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path:'/create',
         element:<CreateChallenge/>
+      },
+      {
+        path:'/participate',
+        element:<Participation/>
       }
     ]
   },

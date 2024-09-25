@@ -1,13 +1,18 @@
-# Stage 1: Build the frontend
-FROM node:18 
+
+FROM node:18-alpine
+
 WORKDIR /app
-COPY package.json package-lock.json ./
+
+COPY package.json .
+
 RUN npm install
+
+RUN npm i -g serve
+
 COPY . .
+
 RUN npm run build
 
-# # Stage 2: Serve with Nginx
-# FROM nginx:alpine
-# COPY --from=build-stage /app/dist /usr/share/nginx/html
-EXPOSE 5173
-CMD ["npm", "run", "dev"]
+EXPOSE 3000
+
+CMD [ "serve", "-s", "dist" ]

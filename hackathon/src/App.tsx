@@ -14,7 +14,7 @@ function App() {
         <Navbar />
       </div>
       {/* Outlet: Takes the remaining screen space */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 ">
         <Outlet />
       </div>
     </div>

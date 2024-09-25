@@ -1,6 +1,6 @@
-import { useState, useEffect, ChangeEvent } from 'react';
-import Challenge from '../components/challenge/Challenge';
-import Filter from '../components/filter/Filter';
+import { useState, useEffect, ChangeEvent } from "react";
+import Challenge from "../components/challenge/Challenge";
+import Filter from "../components/filter/Filter";
 
 // Define a type for the filters state
 interface FiltersType {
@@ -20,23 +20,29 @@ interface ChallengeType {
 }
 
 function ExploreChallenge() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [challenges, setChallenges] = useState<ChallengeType[]>([]);
-  const [filteredChallenges, setFilteredChallenges] = useState<ChallengeType[]>([]);
-  const [filters, setFilters] = useState<FiltersType>({ status: [], level: [] });
+  const [filteredChallenges, setFilteredChallenges] = useState<ChallengeType[]>(
+    []
+  );
+  const [filters, setFilters] = useState<FiltersType>({
+    status: [],
+    level: [],
+  });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const url = import.meta.env.VITE_API_URL_STAGING;
+  console.log("url",url)
 
-  console.log(url)
+  console.log(url);
   // Function to determine the status of the challenge based on the start and end dates
   const determineStatus = (startDate: string, endDate: string): string => {
     const now = new Date();
     const start = new Date(startDate);
     const end = new Date(endDate);
 
-    if (now < start) return 'upcoming';
-    if (now >= start && now <= end) return 'active';
-    return 'past';
+    if (now < start) return "upcoming";
+    if (now >= start && now <= end) return "active";
+    return "past";
   };
 
   // Fetch challenges from the server and set the status based on the dates
@@ -54,7 +60,7 @@ function ExploreChallenge() {
       setChallenges(updatedChallenges);
       setFilteredChallenges(updatedChallenges);
     } catch (error) {
-      console.error('Error fetching challenges:', error);
+      console.error("Error fetching challenges:", error);
     }
   };
 
@@ -65,19 +71,25 @@ function ExploreChallenge() {
   useEffect(() => {
     // Filter challenges based on the selected filters
     const filtered = challenges.filter((challenge) => {
-      const matchesStatus = !filters.status.length || filters.status.includes(challenge.status);
-      const matchesLevel = !filters.level.length || filters.level.includes(challenge.levelType);
-      return matchesStatus && matchesLevel;
+      const matchesStatus =
+        !filters.status.length || filters.status.includes(challenge.status);
+      const matchesLevel =
+        !filters.level.length || filters.level.includes(challenge.levelType);
+      const matchesSearch = challenge.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      return matchesStatus && matchesLevel && matchesSearch;
     });
     setFilteredChallenges(filtered);
-  }, [filters, challenges]);
+  }, [filters, challenges,searchTerm]);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    console.log(e.target.value)
   };
 
   // Remove filter tag when the user clicks the 'x' button
-  const removeFilterTag = (type: 'status' | 'level', value: string) => {
+  const removeFilterTag = (type: "status" | "level", value: string) => {
     setFilters((prev) => ({
       ...prev,
       [type]: prev[type].filter((item: string) => item !== value),
@@ -85,7 +97,7 @@ function ExploreChallenge() {
   };
 
   return (
-    <div className="h-full w-full flex items-center justify-center bg-green-400">
+    <div className=" h-full w-full flex items-center justify-center bg-bgColor">
       <div className="p-4 h-full flex-col w-9/12">
         {/* Search and Filter Section */}
         <div className="flex justify-center space-x-4 items-center mb-6">
@@ -107,22 +119,28 @@ function ExploreChallenge() {
         {/* Filter Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
           {filters.status.map((status) => (
-            <span key={status} className="bg-gray-200 text-gray-800 p-2 rounded flex items-center">
+            <span
+              key={status}
+              className="bg-gray-200 text-gray-800 p-2 rounded flex items-center"
+            >
               {status}
               <button
                 className="ml-2 text-red-500 hover:text-red-700"
-                onClick={() => removeFilterTag('status', status)}
+                onClick={() => removeFilterTag("status", status)}
               >
                 ×
               </button>
             </span>
           ))}
           {filters.level.map((level) => (
-            <span key={level} className="bg-gray-200 text-gray-800 p-2 rounded flex items-center">
+            <span
+              key={level}
+              className="bg-gray-200 text-gray-800 p-2 rounded flex items-center"
+            >
               {level}
               <button
                 className="ml-2 text-red-500 hover:text-red-700"
-                onClick={() => removeFilterTag('level', level)}
+                onClick={() => removeFilterTag("level", level)}
               >
                 ×
               </button>
@@ -133,7 +151,7 @@ function ExploreChallenge() {
         {/* Filter Dropdown */}
         {isFilterOpen && (
           <div className="relative">
-            <div className="absolute top-0 left-0 mt-2 bg-white p-4 rounded-lg shadow-lg z-10 w-full max-w-sm">
+            <div className="absolute top-0 right-28 mt-2 bg-white p-4 rounded-lg shadow-lg z-10 w-full max-w-sm">
               <Filter setFilter={setFilters} />
             </div>
           </div>
