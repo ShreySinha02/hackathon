@@ -48,6 +48,7 @@ jobs:
             # Navigate to the project directory
             if [ ! -d "/home/ubuntu/hackathon/.git" ]; then
               git clone https://github.com/ShreySinha02/hackathon.git 
+              cd /home/ubuntu/hackathon
             else
               cd /home/ubuntu/hackathon
               git pull origin main
